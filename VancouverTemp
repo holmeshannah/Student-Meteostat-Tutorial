@@ -1,0 +1,26 @@
+# tell the computer that we are working with meteostat data
+import meteostat
+
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
+import matplotlib.pyplot as plt
+
+# now select from meteostat the data you want to work with
+from datetime import datetime
+from meteostat import Point, Daily
+
+# set the time period you want to analyze
+start = datetime(2018, 1, 1)
+end = datetime(2018, 12, 31)
+
+# store the point for Vancouver as a variable so we don't have to type it in everytime
+vancouver = Point(49.2497, -123.1193, 70)
+
+# tell the computer to sort for the daily data for vancouver
+data = Daily(vancouver, start, end)
+data = data.fetch()
+
+# now we want to visualize the data with a graph of the average, minimum, and maximum temperature 
+data.plot(y=['tavg', 'tmin', 'tmax'])
+plt.show()
